@@ -10,7 +10,7 @@ namespace EsepWebhook;
 public class Function
 {
     public string FunctionHandler(object input, ILambdaContext context) {
-        dynamic json = JsonConvert.DeserializedObject<dynamic>(input.ToString());
+        dynamic json = JsonConvert.DeserializeObject<dynamic>(input.ToString());
 	string payload = $"{{'text':'Issue Created: {json.issue.html_url}'}}";
 	var client = new HttpClient();
 	var webRequest = new HttpRequestMessage(HttpMethod.Post, Environment.GetEnvironmentVariable("SLACK_URL")) {
@@ -19,7 +19,7 @@ public class Function
 };
 	var response = client.Send(webRequest);
 	using var reader = new StreamReader(response.Content.ReadAsStream());
-	return reader.ReadToEnd());
+	return reader.ReadToEnd();
 
  }   
     /// <summary>
@@ -28,8 +28,8 @@ public class Function
     /// <param name="input">The event for the Lambda function handler to process.</param>
     /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
     /// <returns></returns>
-    public string FunctionHandler(string input, ILambdaContext context)
-    {
-        return input.ToUpper();
-    }
+    /// public string FunctionHandler(string input, ILambdaContext context)
+   /// {
+    ///  return input.ToUpper();
+   /// }
 }
